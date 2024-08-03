@@ -23,6 +23,8 @@ typedef struct {
     unsigned num_of_layers;
     Layer** layers;
     double (*activation_function) (double);
+    double (*activation_function_derivative) (double);
+    double learning_rate;
 
 } Network;
 
@@ -33,7 +35,7 @@ Neuron* neuron_init(unsigned given_dim);
 
 Layer* layer_init(unsigned number_of_neurons, unsigned number_of_neuron_weights);
 
-Network* network_init(unsigned given_number_of_layers, unsigned* number_of_neurons_per_layer_plus_initial, double (*given_activation_function)(double));
+Network* network_init(unsigned given_number_of_layers, unsigned* number_of_neurons_per_layer_plus_initial, double (*given_activation_function)(double), double (*given_activation_function_derivative)(double));
 
 double* network_forward(Network* net, double* datapoint);
 
