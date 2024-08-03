@@ -44,6 +44,6 @@ Network* network_init(unsigned given_number_of_layers,
 
 double* network_forward(Network* net, double* datapoint);
 
-void network_backpropagation_update(Network* net, double* datapoint, double* expected)
+void network_backpropagation_update(Network* net, double* datapoint, double* expected);
 
 #endif /* RESURVIVOR__FIRST_NN_ATTEMPT */
