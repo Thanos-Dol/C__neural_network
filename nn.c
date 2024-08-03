@@ -65,7 +65,7 @@ double* network_forward(Network* net, double* datapoint) {
             {
                 sum += tmp_y_in[k - 1] * net -> layers[i] -> neurons[j] -> weights[k];
             }
-            tmp_y_out[j]= sum;
+            tmp_y_out[j] = net -> activation_function(sum);
         }
 
         free(tmp_y_in);
