@@ -35,8 +35,15 @@ Neuron* neuron_init(unsigned given_dim);
 
 Layer* layer_init(unsigned number_of_neurons, unsigned number_of_neuron_weights);
 
-Network* network_init(unsigned given_number_of_layers, unsigned* number_of_neurons_per_layer_plus_initial, double (*given_activation_function)(double), double (*given_activation_function_derivative)(double));
+Network* network_init(unsigned given_number_of_layers, 
+                        unsigned* number_of_neurons_per_layer_plus_initial, 
+                        double (*given_activation_function)(double), 
+                        double (*given_activation_function_derivative)(double), 
+                        double given_learning_rate
+                        );
 
 double* network_forward(Network* net, double* datapoint);
+
+void network_backpropagation_update(Network* net, double* datapoint, double* expected)
 
 #endif /* RESURVIVOR__FIRST_NN_ATTEMPT */

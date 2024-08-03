@@ -31,7 +31,11 @@ Layer* layer_init(unsigned number_of_neurons, unsigned number_of_neuron_weights)
     return l;
 }
 
-Network* network_init(unsigned given_number_of_layers, unsigned* number_of_neurons_per_layer_plus_initial, double (*given_activation_function)(double), double (*given_activation_function_derivative)(double), double given_learning_rate) {
+Network* network_init(unsigned given_number_of_layers, 
+                        unsigned* number_of_neurons_per_layer_plus_initial, 
+                        double (*given_activation_function)(double), 
+                        double (*given_activation_function_derivative)(double), 
+                        double given_learning_rate) {
 
     Network* net = (Network*) malloc(sizeof(Network));
 
@@ -208,5 +212,42 @@ void network_backpropagation_update(Network* net, double* datapoint, double* exp
         P_old = P_new;
     }
 
-    // update first layer
+    P_new = (double*) calloc(net -> layers[0] -> dim, sizeof(double));
+
+    for (int i = 0; i < net -> layers[0] -> dim; ++i)
+    {
+        double sum = 0.0;
+        for (int j = 0; j < net -> layers[1] -> dim; ++j)
+        {
+            sum += P_old[j] * net -> layers[1] -> neurons[j] -> weights[i + 1];
+        }
+        P_new[i] = sum * net -> activation_function_derivative(V[0][i]);
+    }
+
+    free(V[0]);
+    free(V);
+    free(P_old);
+
+    for (int i = 0, w = 0; i < net -> layers[1] -> dim; ++i)
+    {
+        for (int j = 0; j < net -> layers[1] -> neurons[0] -> dim; ++j)
+        {
+            net -> layers[1] -> neurons[i] -> weights[j] = new_weights[w++];
+        }
+    }
+
+    free(new_weights);
+
+    for (int i = 0, w = 0; i < net -> layers[0] -> dim; ++i)
+    {
+        net -> layers[0] -> neurons[i] -> weights[0] = net -> layers[0] -> neurons[i] -> weights[0] - net -> learning_rate * P_new[i];
+        for (int k = 1; k < net -> layers[0] -> neurons[0] -> dim; ++k)
+        {
+            net -> layers[0] -> neurons[i] -> weights[k] = net -> layers[0] -> neurons[i] -> weights[k] - net -> learning_rate * P_new[i] * datapoint[k - 1];
+        }
+    }
+
+    free(P_new);
+
+    return;
 }
