@@ -106,6 +106,7 @@ void network_backpropagation_update(Network* net, double* datapoint, double* exp
         tmp_y_in[i] = datapoint[i];
     }
 
+
     for (int i = 0; i < net -> num_of_layers; ++i)
     {
         tmp_y_out = (double*) calloc(net -> layers[i] -> dim, sizeof(double));
@@ -116,7 +117,7 @@ void network_backpropagation_update(Network* net, double* datapoint, double* exp
             double sum = net -> layers[i] -> neurons[j] -> weights[0];
             for (int k = 1; k < net -> layers[i] -> neurons[j] -> dim; ++k)
             {
-                sum += V[i][k - 1] * net -> layers[i] -> neurons[j] -> weights[k];
+                sum += tmp_y_in[k - 1] * net -> layers[i] -> neurons[j] -> weights[k];
             }
             V[i][j] = sum;
             tmp_y_out[j] = net -> activation_function(sum);
@@ -250,4 +251,24 @@ void network_backpropagation_update(Network* net, double* datapoint, double* exp
     free(P_new);
 
     return;
+}
+
+void print_network(Network* net) {
+
+    printf("--------- Printing weights of Network ---------\n\n");
+    for (int i = 0; i < net -> num_of_layers; ++i)
+    {
+        printf("--- Layer %d ---\n\n", i + 1);
+        for (int j = 0; j < net -> layers[i] -> dim; ++j)
+        {
+            printf("- Neuron %d:\n\n", j + 1);
+            for (int k = 0; k < net -> layers[i] -> neurons[0] -> dim; ++k)
+            {
+                printf("weight %d: %f\n", k, net -> layers[i] -> neurons[j] -> weights[k]);
+            }
+            printf("\n");
+        }
+        printf("\n");
+    }
+    printf("--------------- end ---------------\n\n");
 }

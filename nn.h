@@ -46,4 +46,6 @@ double* network_forward(Network* net, double* datapoint);
 
 void network_backpropagation_update(Network* net, double* datapoint, double* expected);
 
+void print_network(Network* net);
+
 #endif /* RESURVIVOR__FIRST_NN_ATTEMPT */
