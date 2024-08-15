@@ -46,6 +46,10 @@ double* network_forward(Network* net, double* datapoint);
 
 void network_backpropagation_update(Network* net, double* datapoint, double* expected);
 
+void network_backpropagation_batch_update(Network* net, unsigned batch_size, double** data, double** expected, unsigned datapoint_size);
+
+void network_backpropagation_batch_train(Network* net, unsigned batch_size, double** data, double** expected, unsigned dataset_size, unsigned datapoint_size);
+
 void print_network(Network* net);
 
 #endif /* RESURVIVOR__FIRST_NN_ATTEMPT */
